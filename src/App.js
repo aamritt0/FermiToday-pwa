@@ -159,6 +159,21 @@ export default function App() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
   const [settingsLoaded, setSettingsLoaded] = useState(false);
+  const [showIOSInstall, setShowIOSInstall] = useState(false);
+
+  // Detect if on iOS and not in standalone mode
+  useEffect(() => {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    
+    // Check if user has dismissed the prompt before
+    const hasSeenPrompt = localStorage.getItem('iosInstallPromptDismissed');
+    
+    if (isIOS && !isInStandaloneMode && !hasSeenPrompt) {
+      // Show prompt after 2 seconds
+      setTimeout(() => setShowIOSInstall(true), 2000);
+    }
+  }, []);
 
   // Handle online/offline status
   useEffect(() => {
@@ -845,6 +860,100 @@ export default function App() {
           <AlertCircle className="w-5 h-5" />
           <span className="font-semibold text-sm">Modalità offline</span>
         </div>
+      )}
+
+      {/* iOS Install Prompt */}
+      {showIOSInstall && (
+        <>
+          <div 
+            className="fixed inset-0 z-50 bg-black/50 animate-fade-in"
+            onClick={() => {
+              setShowIOSInstall(false);
+              localStorage.setItem('iosInstallPromptDismissed', 'true');
+            }}
+          ></div>
+          
+          <div className={`fixed bottom-0 left-0 right-0 z-50 animate-slide-up ${
+            isDark ? 'bg-zinc-900' : 'bg-white'
+          } rounded-t-3xl p-6 shadow-2xl`}>
+            <div className="flex justify-between items-start mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-indigo-500 rounded-xl flex items-center justify-center">
+                  <span className="text-white font-bold text-xl">FT</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg">Installa FermiToday</h3>
+                  <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                    Aggiungi alla schermata Home
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  setShowIOSInstall(false);
+                  localStorage.setItem('iosInstallPromptDismissed', 'true');
+                }}
+                className={`p-2 rounded-lg ${
+                  isDark ? 'hover:bg-zinc-800' : 'hover:bg-gray-100'
+                }`}
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className={`space-y-3 mb-4 p-4 rounded-xl ${
+              isDark ? 'bg-zinc-800' : 'bg-gray-50'
+            }`}>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-white text-xs font-bold">1</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-sm">Tocca il pulsante Condividi</p>
+                  <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                    In basso al centro (icona con freccia verso l'alto)
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-white text-xs font-bold">2</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-sm">Scorri e seleziona "Aggiungi a Home"</p>
+                  <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                    Cerca l'icona con il "+" 
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-white text-xs font-bold">3</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-sm">Conferma</p>
+                  <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                    Tocca "Aggiungi" in alto a destra
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="text-center">
+              <button
+                onClick={() => {
+                  setShowIOSInstall(false);
+                  localStorage.setItem('iosInstallPromptDismissed', 'true');
+                }}
+                className="text-indigo-500 font-semibold text-sm"
+              >
+                Non mostrare più
+              </button>
+            </div>
+          </div>
+        </>
       )}
 
       <style jsx>{`
