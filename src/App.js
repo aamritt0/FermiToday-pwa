@@ -818,7 +818,7 @@ export default function App() {
                       {' '}NON UFFICIALE
                     </p>
                     <p className={`text-xs italic transition-colors duration-300 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
-                      Version 0.4.0 PWA
+                      Version 0.5.0 PWA
                     </p>
                   </div>
 
