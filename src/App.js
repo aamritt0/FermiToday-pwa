@@ -171,7 +171,7 @@ export default function App() {
     
     if (isIOS && !isInStandaloneMode && !hasSeenPrompt) {
       // Show prompt after 2 seconds
-      setTimeout(() => setShowIOSInstall(true), 2000);
+      setTimeout(() => setShowIOSInstall(true), 500);
     }
   }, []);
 
