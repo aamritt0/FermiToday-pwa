@@ -99,10 +99,28 @@ const filterEventsByClass = (events, classCode) => {
 
 const filterEventsByProfessor = (events, professorName) => {
   const upperProfName = professorName.toUpperCase().trim();
-  return events.filter((event) => {
+  
+  return events.filter(event => {
     const extractedProfs = extractProfessorFromSummary(event.summary);
-    if (extractedProfs.length === 0) return false;
-    return extractedProfs.some((prof) => prof.toUpperCase() === upperProfName);
+    
+    if (extractedProfs.length > 0) {
+      const found = extractedProfs.some(prof => prof.toUpperCase() === upperProfName);
+      if (found) return true;
+    }
+    
+    // Fallback: substring search
+    const summaryUpper = event.summary.toUpperCase();
+    const descriptionUpper = event.description ? event.description.toUpperCase() : '';
+
+    if (summaryUpper.includes(upperProfName)) {
+      return true;
+    }
+    
+    if (descriptionUpper.includes(upperProfName)) {
+      return true;
+    }
+
+    return false;
   });
 };
 
@@ -1077,7 +1095,7 @@ export default function App() {
                         isDark ? "text-gray-500" : "text-gray-500"
                       }`}
                     >
-                      Version 0.5.8 PWA
+                      Version 0.6.0 PWA
                     </p>
                   </div>
 

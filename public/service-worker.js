@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fermitoday-v0.5.8';
+const CACHE_NAME = 'fermitoday-v0.6.0';
 const urlsToCache = [
   '/',
   '/index.html',
