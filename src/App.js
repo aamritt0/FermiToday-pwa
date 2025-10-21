@@ -1077,7 +1077,7 @@ export default function App() {
                         isDark ? "text-gray-500" : "text-gray-500"
                       }`}
                     >
-                      Version 0.5.0 PWA
+                      Version 0.5.8 PWA
                     </p>
                   </div>
 
