@@ -70,12 +70,31 @@ const extractClassFromSummary = (summary) => {
 };
 
 const extractProfessorFromSummary = (summary) => {
+  const professors = [];
+  
+  // First, check for PROFF. (plural) which indicates multiple professors separated by commas
+  const pluralMatch = summary.match(/PROFF?\.(?:ssa)?\s*([A-Z][A-Z\s,.']+?)(?=\s*CLASSE|\s*AULA|\s*ASSENTE|\s*$)/i);
+  if (pluralMatch) {
+    // Split by comma and extract each professor name
+    const names = pluralMatch[1].split(',');
+    for (const name of names) {
+      // Remove trailing apostrophes and quotes, then trim
+      const trimmedName = name.trim().replace(/['"]+$/, '').trim().replace(/\s+/g, " ");
+      if (trimmedName.length > 0 && trimmedName.length < 50) {
+        professors.push(trimmedName);
+      }
+    }
+    if (professors.length > 0) {
+      return professors;
+    }
+  }
+  
+  // Otherwise, match individual PROF. or PROF.ssa instances
   const profMatches = [
     ...summary.matchAll(
-      /PROF\.?(?:ssa)?\.?\s*([A-Z][A-Z\s]+?)(?=\s*[\(\),]|\s+ASSENTE|\s+CLASSE|\s*$)/gi
+      /PROF\.?(?:ssa)?\.?\s*([A-Z][A-Z\s]+?)(?=\s*[,\(\)]|\s+ASSENTE|\s+CLASSE|\s*$)/gi
     ),
   ];
-  const professors = [];
 
   for (const match of profMatches) {
     if (match[1]) {
@@ -108,15 +127,12 @@ const filterEventsByProfessor = (events, professorName) => {
       if (found) return true;
     }
     
-    // Fallback: substring search
-    const summaryUpper = event.summary.toUpperCase();
+    // Fallback: Only check description for professor mentions
+    // Use word boundary check to avoid matching class codes
     const descriptionUpper = event.description ? event.description.toUpperCase() : '';
 
-    if (summaryUpper.includes(upperProfName)) {
-      return true;
-    }
-    
-    if (descriptionUpper.includes(upperProfName)) {
+    // Check if professor name appears in description with word boundaries
+    if (descriptionUpper.includes(`PROF`) && descriptionUpper.includes(upperProfName)) {
       return true;
     }
 
@@ -1095,7 +1111,7 @@ export default function App() {
                         isDark ? "text-gray-500" : "text-gray-500"
                       }`}
                     >
-                      Version 0.6.0 PWA
+                      Version 0.6.5 PWA
                     </p>
                   </div>
 
