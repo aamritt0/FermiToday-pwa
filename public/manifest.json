@@ -3,29 +3,86 @@
   "short_name": "FermiToday",
   "description": "Visualizza le variazioni dell'orario giornaliero",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#000000",
   "theme_color": "#6366f1",
-  "orientation": "portrait",
-  "scope": "/",
+  "lang": "it-IT",
+  "dir": "ltr",
+  
   "icons": [
     {
       "src": "/icons/logo192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/logo192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/icons/logo512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/icons/logo1024.png",
-      "sizes": "512x512",
+      "sizes": "1024x1024",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    }
+  ],
+  
+  "categories": ["education", "productivity"],
+  "prefer_related_applications": false,
+  
+  "shortcuts": [
+    {
+      "name": "Variazioni Oggi",
+      "short_name": "Oggi",
+      "description": "Visualizza le variazioni di oggi",
+      "url": "/?filter=today",
+      "icons": [
+        {
+          "src": "/icons/logo192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Variazioni Domani",
+      "short_name": "Domani",
+      "description": "Visualizza le variazioni di domani",
+      "url": "/?filter=tomorrow",
+      "icons": [
+        {
+          "src": "/icons/logo192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  
+  "screenshots": [
+    {
+      "src": "/screenshots/home.png",
+      "sizes": "1170x2532",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home screen showing today's variations"
     }
   ]
 }
