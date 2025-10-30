@@ -591,7 +591,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-200 ${isDark ? "bg-black text-white" : "bg-gray-50 text-gray-900"}`} style={{ willChange: "background-color, color", paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
+    <div className={`min-h-screen transition-colors duration-200 ${isDark ? "text-white" : "bg-gray-50 text-gray-900"}`} style={{ willChange: "background-color, color", paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
       <div className={`sticky z-40 transition-colors duration-200 ${isDark ? "bg-zinc-900" : "bg-white"} shadow-sm`} style={{ top: 'env(safe-area-inset-top)' }}>
         <div className="px-6 pt-4 pb-2">
           <div className="flex justify-between items-start">
