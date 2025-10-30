@@ -452,9 +452,8 @@ export default function App() {
       try {
         const subscription = await requestNotificationPermission();
         if (!subscription) return;
-        const subscriptionJSON = subscription.toJSON();
-        setPushSubscription(subscriptionJSON);
-        await saveToDB("pushSubscription", subscriptionJSON);
+        setPushSubscription(subscription);
+        await saveToDB("pushSubscription", subscription);
         await registerSubscriptionWithBackend(subscription);
         setNotificationsEnabled(true);
         showNotification("Notifiche attivate! Configura classe o professore.", "info");
@@ -468,11 +467,7 @@ export default function App() {
       try {
         if (pushSubscription) {
           await unregisterSubscriptionFromBackend(pushSubscription);
-          const registration = await navigator.serviceWorker.ready;
-          const subscription = await registration.pushManager.getSubscription();
-          if (subscription) {
-            await subscription.unsubscribe();
-          }
+          await pushSubscription.unsubscribe();
         }
         setNotificationsEnabled(false);
         setPushSubscription(null);
@@ -591,8 +586,8 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-200 ${isDark ? "bg-black text-white" : "bg-gray-50 text-gray-900"}`} style={{ willChange: "background-color, color" }}>
-      <div className={`sticky top-0 z-40 transition-colors duration-200 ${isDark ? "bg-zinc-900" : "bg-white"} shadow-sm`}>
+    <div className={`min-h-screen transition-colors duration-200 ${isDark ? "bg-black text-white" : "bg-gray-50 text-gray-900"}`} style={{ willChange: "background-color, color", paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
+      <div className={`sticky z-40 transition-colors duration-200 ${isDark ? "bg-zinc-900" : "bg-white"} shadow-sm`} style={{ top: 'env(safe-area-inset-top)' }}>
         <div className="px-6 pt-4 pb-2">
           <div className="flex justify-between items-start">
             <div>
@@ -606,7 +601,7 @@ export default function App() {
         </div>
       </div>
 
-      <div className={`sticky top-[88px] z-30 transition-colors duration-300 ${isDark ? "bg-zinc-900" : "bg-white"} border-b ${isDark ? "border-zinc-800" : "border-gray-200"}`}>
+      <div className={`sticky z-30 transition-colors duration-300 ${isDark ? "bg-zinc-900" : "bg-white"} border-b ${isDark ? "border-zinc-800" : "border-gray-200"}`} style={{ top: 'calc(88px + env(safe-area-inset-top))' }}>
         <div className="px-6 py-3 flex gap-2">
           <button onClick={() => setViewMode("section")} className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-semibold text-sm transition-all duration-200 ${viewMode === "section" ? "bg-indigo-500 text-white scale-105" : isDark ? "bg-zinc-800 text-gray-400 hover:bg-zinc-700" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>
             <BookOpen className="w-4 h-4" />Classe
