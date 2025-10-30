@@ -452,8 +452,9 @@ export default function App() {
       try {
         const subscription = await requestNotificationPermission();
         if (!subscription) return;
-        setPushSubscription(subscription);
-        await saveToDB("pushSubscription", subscription);
+        const subscriptionJSON = subscription.toJSON();
+        setPushSubscription(subscriptionJSON);
+        await saveToDB("pushSubscription", subscriptionJSON);
         await registerSubscriptionWithBackend(subscription);
         setNotificationsEnabled(true);
         showNotification("Notifiche attivate! Configura classe o professore.", "info");
@@ -467,7 +468,11 @@ export default function App() {
       try {
         if (pushSubscription) {
           await unregisterSubscriptionFromBackend(pushSubscription);
-          await pushSubscription.unsubscribe();
+          const registration = await navigator.serviceWorker.ready;
+          const subscription = await registration.pushManager.getSubscription();
+          if (subscription) {
+            await subscription.unsubscribe();
+          }
         }
         setNotificationsEnabled(false);
         setPushSubscription(null);
