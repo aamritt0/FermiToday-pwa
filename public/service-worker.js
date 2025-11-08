@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fermitoday-v0.8.0';
+const CACHE_NAME = 'fermitoday-v0.8.1';
 const BACKEND_URL = 'https://purring-celesta-fermitoday-f00679ea.koyeb.app';
 
 const urlsToCache = [
