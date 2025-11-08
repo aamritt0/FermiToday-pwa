@@ -160,10 +160,8 @@ export default function App() {
   const [savedProfessors, setSavedProfessors] = useState([]);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isDark, setIsDark] = useState(() => {
-    const saved = localStorage.getItem("darkMode");
-    return saved ? JSON.parse(saved) : false;
-  });
+  const [isDark, setIsDark] = useState(false);
+  const [themeMode, setThemeMode] = useState("auto"); // "light", "dark", "auto"
   const [showSettings, setShowSettings] = useState(false);
   const [dateFilter, setDateFilter] = useState("today");
   const [viewMode, setViewMode] = useState("section");
@@ -184,13 +182,27 @@ export default function App() {
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(null);
 
   useEffect(() => {
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    const isInStandaloneMode = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
-    const hasSeenPrompt = localStorage.getItem("iosInstallPromptDismissed");
-    if (isIOS && !isInStandaloneMode && !hasSeenPrompt) {
-      setTimeout(() => setShowIOSInstall(true), 500);
+    if (process.env.NODE_ENV !== 'test') {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const isInStandaloneMode = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
+      const hasSeenPrompt = localStorage.getItem("iosInstallPromptDismissed");
+      if (isIOS && !isInStandaloneMode && !hasSeenPrompt) {
+        setTimeout(() => setShowIOSInstall(true), 500);
+      }
     }
   }, []);
+
+  useEffect(() => {
+    if (themeMode === "auto" && window.matchMedia) {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const handleChange = () => setIsDark(mediaQuery.matches);
+      setIsDark(mediaQuery.matches);
+      mediaQuery.addEventListener("change", handleChange);
+      return () => mediaQuery.removeEventListener("change", handleChange);
+    } else {
+      setIsDark(themeMode === "dark");
+    }
+  }, [themeMode]);
 
   useEffect(() => {
     const handleOnline = () => {
@@ -278,7 +290,10 @@ export default function App() {
   useEffect(() => {
     const loadSettings = async () => {
       try {
-        const darkMode = await getFromDB("darkMode");
+        const themeModeValue = await getFromDB("themeMode");
+        if (themeModeValue) {
+          setThemeMode(themeModeValue);
+        }
         const sections = await getFromDB("savedSections");
         const professors = await getFromDB("savedProfessors");
         const notifEnabled = await getFromDB("notificationsEnabled");
@@ -288,10 +303,6 @@ export default function App() {
         const digestT = await getFromDB("digestTime");
         const realtime = await getFromDB("realtimeEnabled");
         const subscription = await getFromDB("pushSubscription");
-        if (darkMode !== undefined) {
-          setIsDark(darkMode);
-          localStorage.setItem("darkMode", JSON.stringify(darkMode));
-        }
         if (sections) setSavedSections(sections);
         if (professors) setSavedProfessors(professors);
         if (notifEnabled !== undefined) setNotificationsEnabled(notifEnabled);
@@ -328,9 +339,8 @@ export default function App() {
 
   useEffect(() => {
     if (!settingsLoaded) return;
-    localStorage.setItem("darkMode", JSON.stringify(isDark));
-    saveToDB("darkMode", isDark).catch(err => console.error(err));
-  }, [isDark, settingsLoaded]);
+    saveToDB("themeMode", themeMode).catch(err => console.error(err));
+  }, [themeMode, settingsLoaded]);
 
   useEffect(() => {
     if (!settingsLoaded) return;
@@ -629,7 +639,7 @@ export default function App() {
                   <h1 className="text-3xl font-extrabold tracking-tight">Variazioni</h1>
                   <p className={`text-base mt-1 transition-colors duration-300 ${isDark ? "text-gray-400" : "text-gray-600"}`}>{getSubtitle()}</p>
                 </div>
-                <button onClick={() => setShowSettings(true)} className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${isDark ? "hover:bg-zinc-800" : "hover:bg-gray-100"}`}>
+                <button onClick={() => setShowSettings(true)} aria-label="Settings" className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${isDark ? "hover:bg-zinc-800" : "hover:bg-gray-100"}`}>
                   <Settings className="w-7 h-7" />
                 </button>
               </div>
@@ -754,19 +764,28 @@ export default function App() {
 
                   <div className="overflow-y-auto flex-1">
                     <div className="p-6 space-y-6">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
+                      <div>
+                        <div className="flex items-center gap-4 mb-4">
                           {isDark ? <Moon className="w-6 h-6" /> : <Sun className="w-6 h-6" />}
                           <div>
-                            <p className="font-semibold">Tema scuro</p>
-                            <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}>Applica tema scuro</p>
+                            <p className="font-bold text-lg">Tema</p>
+                            <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}>
+                              {themeMode === "auto" ? "Automatico (segue il sistema)" : themeMode === "dark" ? "Scuro" : "Chiaro"}
+                            </p>
                           </div>
                         </div>
-                        <button onClick={() => setIsDark(!isDark)} className={`w-14 h-8 rounded-full ${isDark ? "bg-indigo-500" : "bg-gray-300"} relative`}>
-                          <div className={`w-6 h-6 bg-white rounded-full absolute top-1 transition-transform duration-300 ${isDark ? "translate-x-7" : "translate-x-1"}`}></div>
-                        </button>
+                        <div className="flex gap-2">
+                          <button onClick={() => setThemeMode("light")} className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-semibold text-sm transition-all duration-200 ${themeMode === "light" ? "bg-indigo-500 text-white scale-105" : isDark ? "bg-zinc-800 text-gray-400 hover:bg-zinc-700" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>
+                            <Sun className="w-4 h-4" />Chiaro
+                          </button>
+                          <button onClick={() => setThemeMode("auto")} className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-semibold text-sm transition-all duration-200 ${themeMode === "auto" ? "bg-indigo-500 text-white scale-105" : isDark ? "bg-zinc-800 text-gray-400 hover:bg-zinc-700" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>
+                            <Settings className="w-4 h-4" />Auto
+                          </button>
+                          <button onClick={() => setThemeMode("dark")} className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-semibold text-sm transition-all duration-200 ${themeMode === "dark" ? "bg-indigo-500 text-white scale-105" : isDark ? "bg-zinc-800 text-gray-400 hover:bg-zinc-700" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>
+                            <Moon className="w-4 h-4" />Scuro
+                          </button>
+                        </div>
                       </div>
-
                       <div className={`h-px ${isDark ? "bg-zinc-800" : "bg-gray-200"}`}></div>
 
                       <div>
