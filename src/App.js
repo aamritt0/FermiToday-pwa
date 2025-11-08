@@ -18,6 +18,9 @@ import {
   Bell,
   BellOff,
   ChevronRight,
+  Github,
+  History,
+  Heart,
 } from "lucide-react";
 import OnboardingScreen from './OnboardingScreen';
 
@@ -962,7 +965,36 @@ export default function App() {
                         <p className={`text-sm leading-relaxed mb-3 ${isDark ? "text-gray-400" : "text-gray-600"}`}>
                           Visualizza le variazioni dell'orario giornaliero della tua classe, dei tuoi professori, o quella dei tuoi amici. Basta inserire la classe o il nome del professore per vedere eventuali modifiche all'orario di oggi. NON UFFICIALE
                         </p>
-                        <p className={`text-xs italic ${isDark ? "text-gray-500" : "text-gray-500"}`}>Version 0.8.0 PWA</p>
+                        <p className={`text-xs italic ${isDark ? "text-gray-500" : "text-gray-500"}`}>Version 0.8.5</p>
+                      </div>
+
+                      <div className={`h-px ${isDark ? "bg-zinc-800" : "bg-gray-200"}`}></div>
+
+                      <div>
+                        <div className="flex items-center gap-4 mb-4">
+                          <History className="w-6 h-6" />
+                          <p className="font-bold text-lg">Changelog</p>
+                        </div>
+                        <div className={`p-4 rounded-xl ${isDark ? "bg-zinc-800" : "bg-gray-100"}`}>
+                          <p className="font-bold text-indigo-500 mb-1">v0.8.5</p>
+                          <p className={`text-xs mb-3 ${isDark ? "text-gray-400" : "text-gray-600"}`}>8 Novembre 2025</p>
+                          <ul className={`list-disc list-inside text-sm space-y-1 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+                            <li>Aggiunto supporto tema automatico</li>
+                            <li>Miglioramenti UI e performance</li>
+                            <li>Aggiunti changelog</li>
+                            <li>Fix notifiche push</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col items-center gap-4">
+                        <a href="https://github.com/aamritt/fermitoday-pwa" target="_blank" rel="noopener noreferrer" className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${isDark ? "hover:bg-zinc-800" : "hover:bg-gray-100"}`}>
+                          <Github className="w-6 h-6" />
+                        </a>
+                        <div className="flex items-center gap-1.5">
+                          <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}>Made with</p>
+                          <Heart className="w-4 h-4 text-red-500" />
+                        </div>
                       </div>
 
                       {showInstallPrompt && (
