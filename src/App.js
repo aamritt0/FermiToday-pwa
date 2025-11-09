@@ -988,7 +988,7 @@ export default function App() {
                       </div>
 
                       <div className="flex flex-col items-center gap-4">
-                        <a href="https://github.com/aamritt/fermitoday-pwa" target="_blank" rel="noopener noreferrer" className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${isDark ? "hover:bg-zinc-800" : "hover:bg-gray-100"}`}>
+                        <a href="https://github.com/aamritt0/fermitoday-pwa" target="_blank" rel="noopener noreferrer" className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${isDark ? "hover:bg-zinc-800" : "hover:bg-gray-100"}`}>
                           <Github className="w-6 h-6" />
                         </a>
                         <div className="flex items-center gap-1.5">
