@@ -967,7 +967,7 @@ export default function App() {
                         <p className={`text-sm leading-relaxed mb-3 ${isDark ? "text-gray-400" : "text-gray-600"}`}>
                           Visualizza le variazioni dell'orario giornaliero della tua classe, dei tuoi professori, o quella dei tuoi amici. Basta inserire la classe o il nome del professore per vedere eventuali modifiche all'orario di oggi. NON UFFICIALE
                         </p>
-                        <p className={`text-xs italic ${isDark ? "text-gray-500" : "text-gray-500"}`}>Version 0.8.5</p>
+                        <p className={`text-xs italic ${isDark ? "text-gray-500" : "text-gray-500"}`}>Version 0.9.0</p>
                       </div>
 
                       <div className={`h-px ${isDark ? "bg-zinc-800" : "bg-gray-200"}`}></div>
