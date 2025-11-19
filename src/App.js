@@ -67,8 +67,10 @@ const saveToDB = async (key, value) => {
 };
 
 const extractClassFromSummary = (summary) => {
-  const classMatch = summary.match(/CLASSE\s+([A-Z0-9]+)\s/);
-  return classMatch ? classMatch[1] : null;
+  const match = summary.match(/CLASS[EI]\s+([A-Z0-9,\s]+?)(?=\s*[-–]|\s+AULA|\s+PROF|\s*$)/i);
+  if (!match) return [];
+  const classPart = match[1];
+  return classPart.split(/[,\s]+/).filter(c => c.trim().length > 0);
 };
 
 const extractProfessorFromSummary = (summary) => {
@@ -97,8 +99,8 @@ const extractProfessorFromSummary = (summary) => {
 const filterEventsByClass = (events, classCode) => {
   const upperClassCode = classCode.toUpperCase().trim();
   return events.filter((event) => {
-    const extractedClass = extractClassFromSummary(event.summary);
-    return extractedClass === upperClassCode;
+    const extractedClasses = extractClassFromSummary(event.summary);
+    return extractedClasses.includes(upperClassCode);
   });
 };
 
@@ -976,13 +978,10 @@ export default function App() {
                           <p className="font-bold text-lg">Changelog</p>
                         </div>
                         <div className={`p-4 rounded-xl ${isDark ? "bg-zinc-800" : "bg-gray-100"}`}>
-                          <p className="font-bold text-indigo-500 mb-1">v0.8.5</p>
-                          <p className={`text-xs mb-3 ${isDark ? "text-gray-400" : "text-gray-600"}`}>8 Novembre 2025</p>
+                          <p className="font-bold text-indigo-500 mb-1">v0.9.0</p>
+                          <p className={`text-xs mb-3 ${isDark ? "text-gray-400" : "text-gray-600"}`}>19 Novembre 2025</p>
                           <ul className={`list-disc list-inside text-sm space-y-1 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
-                            <li>Aggiunto supporto tema automatico</li>
-                            <li>Miglioramenti UI e performance</li>
-                            <li>Aggiunti changelog</li>
-                            <li>Fix notifiche push</li>
+                            <li>Ora mostra eventi che contengono nomi di più classi</li>
                           </ul>
                         </div>
                       </div>
