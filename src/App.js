@@ -981,7 +981,7 @@ export default function App() {
                           <p className="font-bold text-indigo-500 mb-1">v0.9.0</p>
                           <p className={`text-xs mb-3 ${isDark ? "text-gray-400" : "text-gray-600"}`}>19 Novembre 2025</p>
                           <ul className={`list-disc list-inside text-sm space-y-1 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
-                            <li>Ora mostra eventi che contengono nomi di più classi</li>
+                            <li>Ora mostra eventi che riguardano più classi</li>
                           </ul>
                         </div>
                       </div>
