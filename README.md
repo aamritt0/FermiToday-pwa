@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+# 📘 FermiToday
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Expo](https://img.shields.io/badge/Expo-React%20Native-000000?logo=expo&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)
+![PWA](https://img.shields.io/badge/PWA-Ready-brightgreen?logo=pwa)
+![Status](https://img.shields.io/badge/Status-Active-success)
 
-## Available Scripts
+**FermiToday** è un progetto open-source per visualizzare in modo semplice e immediato le **variazioni orarie giornaliere** della scuola *Liceo Fermi*.  
+Include una **mobile app (Android/iOS)** e una **Progressive Web App (PWA)** ottimizzata per i dispositivi iOS.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+<p align="center">
+  <img src="https://github.com/aamritt0/FermiToday/assets/preview.png" alt="Anteprima FermiToday" width="70%">
+</p>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🇮🇹 Italiano
 
-### `npm run build`
+### 🚀 Descrizione
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+L’app permette di consultare rapidamente i cambiamenti dell’orario scolastico di ogni giornata, come:
+- variazioni di classe o aula;
+- supplenze e assenze dei docenti;
+- aggiornamenti dell’orario ufficiale.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+L’obiettivo è offrire agli studenti e ai docenti un accesso **veloce e centralizzato** a tutte le modifiche quotidiane.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+### 📱 Versioni disponibili
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+| Piattaforma | Repository | Descrizione |
+|--------------|-------------|--------------|
+| 📱 **Mobile App (Android/iOS)** | [FermiToday](https://github.com/aamritt0/FermiToday) | App creata con **React Native** ed **Expo**, per uso mobile nativo. |
+| 🌐 **PWA (iOS e Web)** | [FermiToday-pwa](https://github.com/aamritt0/FermiToday-pwa) | Versione **Progressive Web App** installabile su iPhone, iPad e browser. |
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 🧩 Funzionalità principali
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- 📅 Visualizzazione giornaliera delle variazioni di orario.  
+- 🔄 Aggiornamento automatico o manuale delle informazioni.  
+- 💡 Interfaccia semplice e ottimizzata per la lettura rapida.  
+- 📲 Compatibilità cross-platform (mobile + web).  
+- 🌙 Modalità chiara/scura (se implementata nel framework).  
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
