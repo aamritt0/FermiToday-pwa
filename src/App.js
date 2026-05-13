@@ -316,7 +316,28 @@ export default function App() {
         if (digest !== undefined) setDigestEnabled(digest);
         if (digestT) setDigestTime(digestT);
         if (realtime !== undefined) setRealtimeEnabled(realtime);
-        if (subscription) setPushSubscription(subscription);
+        // Restore push subscription from the browser's Push Manager (not just IndexedDB)
+        // This ensures we have the live subscription object, not a stale JSON copy
+        if (notifEnabled && "serviceWorker" in navigator) {
+          try {
+            const registration = await navigator.serviceWorker.ready;
+            const liveSub = await registration.pushManager.getSubscription();
+            if (liveSub) {
+              console.log("✅ Push subscription restored from Push Manager");
+              setPushSubscription(liveSub.toJSON());
+            } else {
+              console.log("⚠️ No live push subscription found, disabling notifications");
+              setNotificationsEnabled(false);
+              await saveToDB("notificationsEnabled", false);
+              await saveToDB("pushSubscription", null);
+            }
+          } catch (err) {
+            console.error("❌ Error restoring push subscription:", err);
+            if (subscription) setPushSubscription(subscription);
+          }
+        } else if (subscription) {
+          setPushSubscription(subscription);
+        }
 
         const onboardingComplete = await getFromDB("onboardingComplete");
         if (onboardingComplete !== undefined) {
